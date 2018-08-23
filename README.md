@@ -1,6 +1,6 @@
 # WSJ City
 News app clone with a bit of changes. 
 
-run npm install
-react-native run-ios 
+1) run npm install
+2) react-native run-ios 
 
