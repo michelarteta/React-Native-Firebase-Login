@@ -1,52 +1,71 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import firebase from 'react-native-firebase';
 
 
-
 class Login extends Component {
-  state = { email: '', password: '', errorMessage: null }
 
-  handleLogin = () => {
-    const { email, pasword } = this.state
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => this.props.navigation.navigate('Main'))
-      .catch(error => this.setState({ errorMessage: error.message }))
-  }
-  
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Login</Text>
-        {this.state.errorMessage &&
-          <Text style={{ color: 'red' }}>
-            {this.state.errorMessage}
-          </Text>}
-        <TextInput
-          style={styles.textInput}
-          autoCapitalize="none"
-          placeholder="Email"
-          onChangeText={email => this.setState({ email })}
-          value={this.state.email}
-        />
-        <TextInput
-          secureTextEntry
-          style={styles.textInput}
-          autoCapitalize="none"
-          placeholder="Password"
-          onChangeText={password => this.setState({ password })}
-          value={this.state.password}
-        />
-        <Button title="Login" onPress={this.handleLogin} />
-        <Button
-          title="Don't have an account? Sign Up"
-          onPress={() => this.props.navigation.navigate('SignUp')}
-        />
-      </View>
-    )
-  }
+	constructor(props) {
+		super(props);
+		this.state = { 
+			email: '', 
+			password: '', 
+			errorMessage: null 
+		};
+	}
+
+
+
+	handleLogin = () => {
+		firebase
+		  .auth()
+		  .signInAndRetrieveDataWithEmailAndPassword(this.state.email, this.state.password)
+		  .then(() => this.props.navigation.navigate('Main'))
+		  .catch(error => this.setState({ errorMessage: error.message }))
+	}
+
+
+	dismissKeyboard = () => {
+		Keyboard.dismiss()
+	}
+
+  	
+  	render() {
+
+	    return (
+	    	<TouchableWithoutFeedback onPress={this.dismissKeyboard}>
+		      <View style={styles.container} >
+		        <Text>Login</Text>
+		        {this.state.errorMessage &&
+		          <Text style={{ color: 'red' }}>
+		            {this.state.errorMessage}
+		          </Text>}
+		        <TextInput
+		          style={styles.textInput}
+		          autoCapitalize="none"
+		          placeholder="Email"
+		          keyboardType="email-address"
+		          onChangeText={email => this.setState({ email })}
+		          value={this.state.email}
+		        />
+		        <TextInput
+		          secureTextEntry
+		          style={styles.textInput}
+		          autoCapitalize="none"
+		          placeholder="Password"
+		          onChangeText={password => this.setState({ password })}
+		          value={this.state.password}
+		        />
+
+		        <Button title="Login" onPress={this.handleLogin} />
+		        <Button
+		          title="Don't have an account? Sign Up"
+		          onPress={() => this.props.navigation.navigate('SignUp')}
+		        />
+		      </View>
+		    </TouchableWithoutFeedback>
+	    )
+  	}
 }
 
 export default Login;

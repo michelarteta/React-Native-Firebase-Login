@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Platform, Image, Text, View } from 'react-native'
+import { StyleSheet, Platform, TouchableOpacity, Image, Text, View } from 'react-native'
 
 import firebase from 'react-native-firebase'
 
@@ -23,8 +23,9 @@ class Main extends Component {
   }
 
   render() {
-    
+
     const { currentUser } = this.state
+    
     return (
         <View style={styles.container}>
           <Text>
